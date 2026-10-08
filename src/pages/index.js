@@ -8,17 +8,46 @@ const flows = [
 ];
 
 const invitationDetails = [
-  { label: '日期', english: 'DATE', value: '2026 / 11 / XX' },
-  { label: '教學演示時間', english: 'DEMONSTRATION', value: '10:05–10:50（第三節）' },
+  { label: '日期', english: 'DATE', value: '2026 / 11 / XX（　）' },
+  { label: '演示時間', english: 'DEMONSTRATION', value: '10:05–10:50' },
   { label: '議課時間', english: 'DISCUSSION', value: '10:50' },
-  { label: '活動地點', english: 'LOCATION', value: '綜合活動四樓 401 電腦教室' },
+  { label: '活動地點', english: 'LOCATION', value: '綜合大樓 四樓\n401電腦教室' },
 ];
 
-const teachingPresenter = { role: '資訊科技實習老師', name: '張芸楨' };
+const teachingPresenter = { role: '資訊科技實習教師', name: '張芸楨' };
 
 const guidanceTeam = [
-  { role: '實習輔導老師', name: '卓進豐 老師' },
   { role: '實習指導教授', name: '孫培真 教授' },
+  { role: '實習輔導教師', name: '卓進豐 教師' },
+];
+
+const resources = [
+  {
+    type: 'PDF',
+    label: '教案',
+    english: 'LESSON PLAN',
+    description: '課程設計、教學流程與教材內容',
+    href: 'https://docs.google.com/document/d/1-NdooljIolQxqRun0kGqrWPdWeCFGuR_i3v0wMZW0XI/edit?usp=sharing',
+  },
+  {
+    type: 'PPT',
+    label: '我的簡報',
+    english: 'PRESENTATION',
+    description: '康軒第一冊第四章・四份投影片',
+    links: [
+      { label: '循序重複結構', href: 'https://canva.link/6fym4we46m99jor' },
+      { label: '判斷式', href: 'https://canva.link/alh1obnyy9ms0lu' },
+      { label: '條件組合', href: 'https://canva.link/djjitzj3boyncz3' },
+      { label: '計算數量與金額', href: 'https://canva.link/d1426vg3xejnkwe' },
+    ],
+  },
+  {
+    type: 'FORM',
+    label: '問卷回饋',
+    english: 'FEEDBACK FORM',
+    description: '留下本次教學演示的回饋與建議',
+    href: 'https://forms.gle/DRKFLogWjhuYx7Ru6',
+  },
 ];
 
 const delay = (milliseconds) =>
@@ -160,23 +189,32 @@ export default function HomePage({ data }) {
       }
     };
 
-    const handlePointerMove = (event) => {
-      if (event.pointerType === 'touch') return;
+    const handlePointerActivity = (event) => {
+      const catBounds = cat.getBoundingClientRect();
       targetPosition = {
-        x: event.clientX,
-        y: event.clientY,
+        x: Math.max(12, Math.min(event.clientX, window.innerWidth - catBounds.width - 12)),
+        y: Math.max(12, Math.min(event.clientY, window.innerHeight - catBounds.height - 12)),
       };
 
       if (reducedMotion) {
         renderCat(window.performance.now());
-        return;
       }
     };
 
+    const handlePointerDown = (event) => {
+      handlePointerActivity(event);
+    };
+
+    const handlePointerMove = (event) => {
+      handlePointerActivity(event);
+    };
+
+    window.addEventListener('pointerdown', handlePointerDown, { passive: true });
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
     renderCat(lastFrameTime);
 
     return () => {
+      window.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('pointermove', handlePointerMove);
       if (animationFrame) window.cancelAnimationFrame(animationFrame);
     };
@@ -252,7 +290,12 @@ export default function HomePage({ data }) {
         style={{ display: showInvitation ? 'block' : 'none' }}
       >
         <article className="invitation-card">
+          <div className="card-frame" aria-hidden="true" />
           <div className="card-content">
+            <div className="card-meta" aria-hidden="true">
+              <span>IT / 115</span>
+              <span>INVITATION No. 01</span>
+            </div>
             <p className="academic-year">115TH ACADEMIC YEAR <span>・ 資訊科技科</span></p>
             <p className="school-name">臺中市立北新國民中學</p>
             <h1 className="main-title">115學年度教學演示</h1>
@@ -263,39 +306,22 @@ export default function HomePage({ data }) {
             <section className="event-section" aria-labelledby="event-title">
               <h2 className="section-heading" id="event-title">活動資訊 <span>EVENT DETAILS</span></h2>
               <div className="info-grid">
-                {invitationDetails.map((item) => (
-                  <div className={`info-box${item.wide ? ' info-box--wide' : ''}`} key={item.label}>
-                    <div className="info-heading">
-                      <p className="info-kicker">{item.english}</p>
-                      <p className="info-label">{item.label}</p>
+                {invitationDetails.map((item, index) => (
+                  <div
+                    className={`info-box info-box--item-${index + 1}${index === 0 ? ' info-box--featured' : ''}`}
+                    key={item.label}
+                  >
+                    <span className="info-number" aria-hidden="true">0{index + 1}</span>
+                    <div className="info-box-inner">
+                      <div className="info-heading">
+                        <p className="info-kicker">{item.english}</p>
+                        <p className="info-label">{item.label}</p>
+                      </div>
+                      <p className="info-value">{item.value}</p>
                     </div>
-                    <p className="info-value">{item.value}</p>
+                    <span className="info-arrow" aria-hidden="true">↗</span>
                   </div>
                 ))}
-              </div>
-            </section>
-
-            <section className="people-sections" aria-label="教學與指導人員">
-              <div className="teacher-section" aria-labelledby="teaching-title">
-                <h2 className="section-heading" id="teaching-title">教學 <span>TEACHING</span></h2>
-                <div className="teacher-grid teacher-grid--teaching">
-                  <div className="teacher-item">
-                    <p className="teacher-role">{teachingPresenter.role}</p>
-                    <p className="teacher-name">{teachingPresenter.name}</p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="teacher-section" aria-labelledby="guidance-title">
-                <h2 className="section-heading" id="guidance-title">指導 <span>GUIDANCE</span></h2>
-                <div className="teacher-grid teacher-grid--guidance">
-                  {guidanceTeam.map((member) => (
-                  <div className="teacher-item" key={member.role}>
-                    <p className="teacher-role">{member.role}</p>
-                    <p className="teacher-name">{member.name}</p>
-                  </div>
-                  ))}
-                </div>
               </div>
             </section>
 
@@ -307,6 +333,86 @@ export default function HomePage({ data }) {
                 <li><span>02</span>重複</li>
                 <li><span>03</span>選擇</li>
               </ol>
+            </section>
+
+            <section className="people-sections" aria-label="教學與指導人員">
+              {guidanceTeam.map((member, index) => (
+                <div className="teacher-item" key={member.role}>
+                  <span className="teacher-index" aria-hidden="true">0{index + 1}</span>
+                  <div className="teacher-copy">
+                    <p className="teacher-role">{member.role}</p>
+                    <p className="teacher-name">{member.name}</p>
+                  </div>
+                </div>
+              ))}
+
+              <div className="teacher-item teacher-item--presenter">
+                <span className="teacher-index" aria-hidden="true">03</span>
+                <div className="teacher-copy">
+                  <p className="teacher-role">{teachingPresenter.role}</p>
+                  <p className="teacher-name">{teachingPresenter.name}</p>
+                </div>
+              </div>
+            </section>
+
+            <section className="resources-section" aria-labelledby="resources-title">
+              <h2 className="section-heading" id="resources-title">教學資源 <span>RESOURCES</span></h2>
+              <div className="resource-grid">
+                {resources.map((resource) => {
+                  if (resource.links) {
+                    return (
+                      <details className="resource-card resource-card--presentation" key={resource.english}>
+                        <summary className="resource-summary">
+                          <span className="resource-type" aria-hidden="true">{resource.type}</span>
+                          <span className="resource-copy">
+                            <span className="resource-kicker">{resource.english}</span>
+                            <span className="resource-title">{resource.label}</span>
+                            <span className="resource-description">{resource.description}</span>
+                          </span>
+                          <span className="resource-arrow" aria-hidden="true">⌄</span>
+                        </summary>
+                        <div className="presentation-links">
+                          {resource.links.map((link, index) => (
+                            <a
+                              className="presentation-link"
+                              href={link.href}
+                              key={link.href}
+                              rel="noreferrer"
+                              target="_blank"
+                            >
+                              <span className="presentation-number" aria-hidden="true">0{index + 1}</span>
+                              <span>{link.label}</span>
+                              <span aria-hidden="true">↗</span>
+                            </a>
+                          ))}
+                        </div>
+                      </details>
+                    );
+                  }
+
+                  const ResourceCard = resource.href ? 'a' : 'div';
+                  const resourceProps = resource.href
+                    ? { href: resource.href, target: '_blank', rel: 'noreferrer' }
+                    : {};
+
+                  return (
+                    <ResourceCard
+                      className={`resource-card${resource.href ? ' resource-card--linked' : ''}`}
+                      key={resource.english}
+                      {...resourceProps}
+                    >
+                      <span className="resource-type" aria-hidden="true">{resource.type}</span>
+                      <span className="resource-copy">
+                        <span className="resource-kicker">{resource.english}</span>
+                        <span className="resource-title">{resource.label}</span>
+                        <span className="resource-description">{resource.description}</span>
+                      </span>
+                      <span className="resource-arrow" aria-hidden="true">↗</span>
+                      {!resource.href && <span className="resource-status">待補上連結</span>}
+                    </ResourceCard>
+                  );
+                })}
+              </div>
             </section>
 
             <footer className="footer">
