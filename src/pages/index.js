@@ -202,10 +202,13 @@ export default function HomePage({ data }) {
     };
 
     const handlePointerDown = (event) => {
+      // Touch input sets a destination on tap; the existing easing moves the cat there.
       handlePointerActivity(event);
     };
 
     const handlePointerMove = (event) => {
+      // Keep touch scrolling from making the cat trace the finger's path.
+      if (event.pointerType === 'touch') return;
       handlePointerActivity(event);
     };
 
