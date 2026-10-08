@@ -24,7 +24,7 @@ const guidanceTeam = [
 const delay = (milliseconds) =>
   new Promise((resolve) => setTimeout(resolve, milliseconds));
 
-const cursorFollowDelay = 1000;
+const cursorFollowSmoothing = 0.45;
 
 export default function HomePage({ data }) {
   const [activeFlow, setActiveFlow] = useState(-1);
@@ -136,41 +136,24 @@ export default function HomePage({ data }) {
     const initialPosition = {
       x: window.innerWidth * 0.78,
       y: window.innerHeight * 0.78,
-      time: window.performance.now(),
     };
-    let pointerHistory = [initialPosition];
+    let targetPosition = { ...initialPosition };
+    let catPosition = { ...initialPosition };
+    let lastFrameTime = window.performance.now();
 
     const renderCat = (currentTime) => {
-      let position = pointerHistory[pointerHistory.length - 1];
-
       if (!reducedMotion) {
-        const delayedTime = currentTime - cursorFollowDelay;
-        while (pointerHistory.length > 1 && pointerHistory[1].time <= delayedTime) {
-          pointerHistory.shift();
-        }
-
-        const earlierPosition = pointerHistory[0];
-        const laterPosition = pointerHistory[1];
-        position = earlierPosition;
-
-        if (laterPosition && laterPosition.time > earlierPosition.time) {
-          const progress = Math.max(
-            0,
-            Math.min(
-              1,
-              (delayedTime - earlierPosition.time) /
-                (laterPosition.time - earlierPosition.time),
-            ),
-          );
-          position = {
-            x: earlierPosition.x + (laterPosition.x - earlierPosition.x) * progress,
-            y: earlierPosition.y + (laterPosition.y - earlierPosition.y) * progress,
-          };
-        }
+        const elapsedSeconds = Math.max(0, (currentTime - lastFrameTime) / 1000);
+        const progress = 1 - Math.exp(-elapsedSeconds / cursorFollowSmoothing);
+        catPosition.x += (targetPosition.x - catPosition.x) * progress;
+        catPosition.y += (targetPosition.y - catPosition.y) * progress;
+      } else {
+        catPosition = { ...targetPosition };
       }
+      lastFrameTime = currentTime;
 
-      cat.style.setProperty('--cat-x', `${position.x}px`);
-      cat.style.setProperty('--cat-y', `${position.y}px`);
+      cat.style.setProperty('--cat-x', `${catPosition.x}px`);
+      cat.style.setProperty('--cat-y', `${catPosition.y}px`);
 
       if (!reducedMotion) {
         animationFrame = window.requestAnimationFrame((time) => renderCat(time));
@@ -179,23 +162,19 @@ export default function HomePage({ data }) {
 
     const handlePointerMove = (event) => {
       if (event.pointerType === 'touch') return;
-      const position = {
+      targetPosition = {
         x: event.clientX,
         y: event.clientY,
-        time: window.performance.now(),
       };
 
       if (reducedMotion) {
-        pointerHistory = [position];
-        renderCat(position.time);
+        renderCat(window.performance.now());
         return;
       }
-
-      pointerHistory.push(position);
     };
 
     window.addEventListener('pointermove', handlePointerMove, { passive: true });
-    renderCat(initialPosition.time);
+    renderCat(lastFrameTime);
 
     return () => {
       window.removeEventListener('pointermove', handlePointerMove);
