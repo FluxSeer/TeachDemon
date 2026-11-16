@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 
 const flows = [
   { name: 'SEQUENCE', translation: '循序結構' },
@@ -8,10 +8,11 @@ const flows = [
 ];
 
 const invitationDetails = [
-  { label: '日期', english: 'DATE', value: '2026 / 11 / XX（　）' },
-  { label: '演示時間', english: 'DEMONSTRATION', value: '10:05–10:50' },
-  { label: '議課時間', english: 'DISCUSSION', value: '10:50' },
-  { label: '活動地點', english: 'LOCATION', value: '綜合大樓 四樓\n401電腦教室' },
+  { label: '日期', english: 'DATE', value: '2026 / 12 / 17（四）' },
+  { label: '演示時間', english: 'DEMONSTRATION', value: '11:00–11:45（第四節）' },
+  { label: '演示地點', english: 'DEMONSTRATION LOCATION', value: '綜合大樓四樓\n401 電腦教室' },
+  { label: '議課時間', english: 'DISCUSSION', value: '11:45' },
+  { label: '議課地點', english: 'DISCUSSION LOCATION', value: '中山樓二樓\n會議室' },
 ];
 
 const teachingPresenter = { role: '資訊科技實習教師', name: '張芸楨' };
@@ -33,12 +34,13 @@ const resources = [
     type: 'PPT',
     label: '我的簡報',
     english: 'PRESENTATION',
-    description: '康軒第一冊第四章・四份投影片',
+    description: '康軒第一冊第四章・五份投影片',
     links: [
       { label: '循序重複結構', href: 'https://canva.link/6fym4we46m99jor' },
       { label: '判斷式', href: 'https://canva.link/alh1obnyy9ms0lu' },
       { label: '條件組合', href: 'https://canva.link/djjitzj3boyncz3' },
-      { label: '計算數量與金額', href: 'https://canva.link/d1426vg3xejnkwe' },
+      { label: '計算數量', href: 'https://canva.link/d1426vg3xejnkwe' },
+      { label: '計算金額', href: 'https://canva.link/s1iwijq52fvv864' },
     ],
   },
   {
@@ -416,6 +418,20 @@ export default function HomePage({ data }) {
                   );
                 })}
               </div>
+            </section>
+
+            <section className="mini-game" aria-labelledby="mini-game-title">
+              <Link className="mini-game-link" to="/game/" aria-label="開啟結構轉換小遊戲">
+                <span className="mini-game-icons" aria-hidden="true">
+                  <span>→</span><span>→</span><span>→</span><span>→</span>
+                  <strong>↻</strong>
+                </span>
+                <span className="mini-game-copy">
+                  <span className="mini-game-kicker">MINI GAME · 點擊挑戰</span>
+                  <span className="mini-game-title" id="mini-game-title">結構轉換小遊戲</span>
+                </span>
+                <span className="mini-game-cta">開始遊戲 ↗</span>
+              </Link>
             </section>
 
             <footer className="footer">
