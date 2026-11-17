@@ -179,7 +179,7 @@ const roundBank = [
     title: '看懂輸出結果',
     visualType: 'text',
     visual: [
-      '分數：60 分',
+      '分數：75 分',
       '如果 分數 ≥ 90 → 輸出「優秀」',
       '否則',
       '　如果 分數 ≥ 60 → 輸出「及格」',
@@ -192,7 +192,7 @@ const roundBank = [
       { id: 'grade-fail', icon: '=', count: '不及格', label: '輸出結果' },
     ],
     answer: 'grade-pass',
-    explanation: '先判斷分數是否達到 90；若否，進入裡面的另一個「如果」判斷。60 達到 60 → 顯示「及格」',
+    explanation: '先判斷分數是否達到 90；若否，進入裡面的另一個「如果」判斷。75 達到 60 → 顯示「及格」',
   },
   {
     id: 'challenge-pre-post-test',
