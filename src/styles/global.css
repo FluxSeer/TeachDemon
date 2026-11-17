@@ -1234,6 +1234,49 @@ h2 {
   line-height: 1.5;
 }
 
+.game-intro {
+  padding: 36px 20px 30px;
+  text-align: center;
+}
+
+.game-intro-lead {
+  margin: 18px 0 9px;
+  color: #2878a4;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.game-intro-copy {
+  max-width: 480px;
+  margin: 0 auto;
+  color: #526a7c;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.game-intro-structures {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin: 24px 0 4px;
+}
+
+.game-intro-structures span {
+  padding: 9px 12px;
+  border: 1px solid #b8d2e0;
+  border-radius: 999px;
+  background: #e7f4f9;
+  color: #2878a4;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.game-start {
+  margin-top: 24px;
+}
+
 .game-panel {
   padding: 30px 22px 24px;
   border: 1px solid #b8d2e0;

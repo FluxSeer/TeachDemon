@@ -422,14 +422,14 @@ export default function HomePage({ data, location }) {
             </section>
 
             <section className="mini-game" aria-labelledby="mini-game-title">
-              <Link className="mini-game-link" to="/game/" aria-label="開啟結構轉換小遊戲">
+              <Link className="mini-game-link" to="/game/" aria-label="開啟程式結構小偵探">
                 <span className="mini-game-icons" aria-hidden="true">
                   <span>→</span><span>→</span><span>→</span><span>→</span>
                   <strong>↻</strong>
                 </span>
                 <span className="mini-game-copy">
                   <span className="mini-game-kicker">MINI GAME · 點擊挑戰</span>
-                  <span className="mini-game-title" id="mini-game-title">結構轉換小遊戲</span>
+                  <span className="mini-game-title" id="mini-game-title">程式結構小偵探</span>
                 </span>
                 <span className="mini-game-cta">開始遊戲 ↗</span>
               </Link>

@@ -37,7 +37,7 @@ const roundBank = [
     category: 'repeat',
     tag: '重複結構',
     title: '畫一個正方形',
-    visual: ['→', '↻', '→', '↻'],
+    visual: ['→ ↻', '→ ↻', '→ ↻', '→ ↻'],
     prompt: '哪個流程最適合？',
     options: [
       { id: 'square-sequence', icon: '→', count: '4', label: '循序' },
@@ -164,9 +164,9 @@ const roundBank = [
     visual: ['起始數字：4', '＋ 3', '× 2'],
     prompt: '按照圖示順序計算，最後結果是多少？',
     options: [
-      { id: 'result-14', icon: '=', count: '14', label: '依圖示順序計算' },
-      { id: 'result-10', icon: '=', count: '10', label: '將 × 2 提前計算' },
-      { id: 'result-11', icon: '=', count: '11', label: '顛倒運算順序' },
+      { id: 'result-14', icon: '=', count: '14', label: '最後結果' },
+      { id: 'result-10', icon: '=', count: '10', label: '最後結果' },
+      { id: 'result-11', icon: '=', count: '11', label: '最後結果' },
     ],
     answer: 'result-14',
     explanation: '循序結構要依照圖示順序執行：4＋3＝7，接著將 7×2＝14，不能把後面的運算提前。',
@@ -178,15 +178,21 @@ const roundBank = [
     tag: '選擇結構',
     title: '看懂輸出結果',
     visualType: 'text',
-    visual: ['分數：78 分', '如果 ≥ 90 → 輸出「優秀」', '否則如果 ≥ 60 → 輸出「及格」', '否則 → 輸出「不及格」'],
-    prompt: '程式最後會輸出哪一個？',
+    visual: [
+      '分數：78 分',
+      '如果 分數 ≥ 90 → 輸出「優秀」',
+      '否則',
+      '　如果 分數 ≥ 60 → 輸出「及格」',
+      '　否則 → 輸出「不及格」',
+    ],
+    prompt: '依照程式流程，最後會輸出哪一個？',
     options: [
-      { id: 'grade-excellent', icon: '◇', count: '優秀', label: '只要分數 ≥ 60' },
-      { id: 'grade-pass', icon: '◇', count: '及格', label: '78 ≥ 60，且未達 90' },
-      { id: 'grade-fail', icon: '◇', count: '不及格', label: '78 < 90' },
+      { id: 'grade-excellent', icon: '◇', count: '優秀', label: '輸出結果' },
+      { id: 'grade-pass', icon: '◇', count: '及格', label: '輸出結果' },
+      { id: 'grade-fail', icon: '◇', count: '不及格', label: '輸出結果' },
     ],
     answer: 'grade-pass',
-    explanation: '78 未達 90，但達到 60 → 顯示「及格」',
+    explanation: '先判斷分數是否達到 90；若否，進入裡面的另一個「如果」判斷。78 達到 60 → 顯示「及格」',
   },
   {
     id: 'challenge-pre-post-test',
@@ -265,6 +271,7 @@ export default function StructureGame() {
   const [roundIndex, setRoundIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState('');
   const [score, setScore] = useState(0);
+  const [showIntro, setShowIntro] = useState(true);
   const [isFinished, setIsFinished] = useState(false);
   const round = gameRounds[roundIndex];
   const isCorrect = selectedAnswer === round?.answer;
@@ -288,28 +295,53 @@ export default function StructureGame() {
     setSelectedAnswer('');
   };
 
+  const startGame = () => {
+    setShowIntro(false);
+  };
+
   const restartGame = () => {
     setGameRounds(createGameRounds(gameRounds.map((round) => round.id)));
     setRoundIndex(0);
     setSelectedAnswer('');
     setScore(0);
+    setShowIntro(true);
     setIsFinished(false);
   };
 
   return (
     <main className="game-page">
-      <section className="game-shell" aria-labelledby="game-title">
-        <Link className="game-back" to="/">← 回到邀請卡</Link>
+      <section
+        className="game-shell"
+        aria-labelledby={showIntro ? 'game-intro-title' : isFinished ? 'game-complete-title' : 'game-title'}
+      >
+        <Link className="game-back" to="/" state={{ skipIntro: true }}>← 回到邀請卡</Link>
 
-        {!isFinished ? (
+        {showIntro ? (
+          <section className="game-intro" aria-labelledby="game-intro-title">
+            <p className="game-kicker">MINI GAME · FLOW STRUCTURES</p>
+            <h1 className="game-title" id="game-intro-title">程式結構小偵探</h1>
+            <p className="game-intro-lead">讓老師體驗程式的三大流程結構小遊戲</p>
+            <p className="game-intro-copy">
+              從生活中的小情境出發，認識循序、重複與選擇，準備好就來挑戰第一題吧！
+            </p>
+            <div className="game-intro-structures" aria-label="三大流程結構">
+              {['循序', '重複', '選擇'].map((structure) => (
+                <span key={structure}>{structure}結構</span>
+              ))}
+            </div>
+            <button className="game-next game-start" type="button" onClick={startGame}>
+              開始第一題 →
+            </button>
+          </section>
+        ) : !isFinished ? (
           <>
             <header className="game-header">
               <div className="game-status-row">
                 <p className="game-kicker">FLOW STRUCTURE QUEST</p>
                 <span className="game-score">得分 {score} · 題組隨機</span>
               </div>
-              <h1 className="game-title" id="game-title">流程結構闖關</h1>
-              <p className="game-subtitle">誠摯邀請您先來體驗一個簡單有趣的小遊戲。</p>
+              <h1 className="game-title" id="game-title">程式結構小偵探</h1>
+              <p className="game-subtitle">循序、重複、選擇，看看你能答對幾題！</p>
               <div className="game-progress" aria-label={`第 ${roundIndex + 1} 題，共 ${gameRounds.length} 題`}>
                 <span style={{ width: `${((roundIndex + 1) / gameRounds.length) * 100}%` }} />
               </div>
@@ -414,8 +446,8 @@ export default function StructureGame() {
 export const Head = () => (
   <>
     <html lang="zh-Hant" />
-    <title>流程結構闖關</title>
-    <meta name="description" content="用循序、重複、選擇三大流程結構進行闖關。" />
+    <title>程式結構小偵探</title>
+    <meta name="description" content="讓老師體驗程式的循序、重複、選擇三大流程結構小遊戲。" />
     <meta name="theme-color" content="#0b1118" />
   </>
 );
