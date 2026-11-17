@@ -38,14 +38,14 @@ const roundBank = [
     tag: '重複結構',
     title: '畫一個正方形',
     visual: ['→ ↻', '→ ↻', '→ ↻', '→ ↻'],
-    prompt: '哪個流程最適合？',
+    prompt: '哪一種寫法可以讓程式碼最精簡？',
     options: [
       { id: 'square-sequence', icon: '→', count: '4', label: '循序' },
       { id: 'square-repeat', icon: '↻', count: '4', label: '重複' },
       { id: 'square-selection', icon: '?', count: '？', label: '選擇' },
     ],
     answer: 'square-repeat',
-    explanation: '前進＋右轉重複 4 次，就能畫出正方形',
+    explanation: '循序寫法也能完成正方形，但把「前進＋右轉」重複 4 次，程式碼最精簡。',
   },
   {
     id: 'score-selection',
@@ -113,7 +113,7 @@ const roundBank = [
     tag: '循序 → 重複',
     title: '拍手 5 次',
     visual: ['👏', '👏', '👏', '👏', '👏'],
-    prompt: '要讓程式執行相同動作 5 次，哪一個選項最適合？',
+    prompt: '哪一個結構最能簡化程式？',
     options: [
       { id: 'clap-five', icon: '↻', count: '×5', label: '重複拍手' },
       { id: 'clap-sequence', icon: '→', count: '5', label: '逐次寫出拍手指令' },
@@ -147,12 +147,12 @@ const roundBank = [
     visual: ['目前 1 格', '重複 5 次', '每次前進 2 格'],
     prompt: '最後走了幾格？',
     options: [
-      { id: 'distance-9', icon: '=', count: '9', label: '格' },
+      { id: 'distance-10', icon: '=', count: '10', label: '格' },
       { id: 'distance-11', icon: '=', count: '11', label: '格' },
       { id: 'distance-13', icon: '=', count: '13', label: '格' },
     ],
     answer: 'distance-11',
-    explanation: '起點 1 格，加上每次 2 格 × 重複 5 次，共 11 格',
+    explanation: '10 是漏算起點，13 是把前進次數多算 1 次；正確計算是 1＋（2×5）＝11 格。',
   },
   {
     id: 'challenge-sequence-order',
@@ -179,7 +179,7 @@ const roundBank = [
     title: '看懂輸出結果',
     visualType: 'text',
     visual: [
-      '分數：78 分',
+      '分數：60 分',
       '如果 分數 ≥ 90 → 輸出「優秀」',
       '否則',
       '　如果 分數 ≥ 60 → 輸出「及格」',
@@ -192,7 +192,7 @@ const roundBank = [
       { id: 'grade-fail', icon: '◇', count: '不及格', label: '輸出結果' },
     ],
     answer: 'grade-pass',
-    explanation: '先判斷分數是否達到 90；若否，進入裡面的另一個「如果」判斷。78 達到 60 → 顯示「及格」',
+    explanation: '先判斷分數是否達到 90；若否，進入裡面的另一個「如果」判斷。60 達到 60 → 顯示「及格」',
   },
   {
     id: 'challenge-pre-post-test',
@@ -324,11 +324,6 @@ export default function StructureGame() {
             <p className="game-intro-copy">
               從生活中的小情境出發，認識循序、重複與選擇，準備好就來挑戰第一題吧！
             </p>
-            <div className="game-intro-structures" aria-label="三大流程結構">
-              {['循序', '重複', '選擇'].map((structure) => (
-                <span key={structure}>{structure}結構</span>
-              ))}
-            </div>
             <button className="game-next game-start" type="button" onClick={startGame}>
               開始第一題 →
             </button>
@@ -341,7 +336,7 @@ export default function StructureGame() {
                 <span className="game-score">得分 {score} · 題組隨機</span>
               </div>
               <h1 className="game-title" id="game-title">程式結構小偵探</h1>
-              <p className="game-subtitle">循序、重複、選擇，看看你能答對幾題！</p>
+              <p className="game-subtitle">一起認識循序、重複與選擇，慢慢找出適合的程式寫法。</p>
               <div className="game-progress" aria-label={`第 ${roundIndex + 1} 題，共 ${gameRounds.length} 題`}>
                 <span style={{ width: `${((roundIndex + 1) / gameRounds.length) * 100}%` }} />
               </div>
@@ -364,7 +359,7 @@ export default function StructureGame() {
               </div>
               <p className="game-prompt">
                 {round.prompt}
-                {(round.category === 'repeat' || round.structure === 'repeat') && (
+                {round.category === 'repeat' && (
                   <span className="game-prompt-hint"><span aria-hidden="true">↻</span> 代表重複執行</span>
                 )}
               </p>
