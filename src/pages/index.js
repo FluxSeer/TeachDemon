@@ -57,7 +57,8 @@ const delay = (milliseconds) =>
 
 const cursorFollowSmoothing = 0.45;
 
-export default function HomePage({ data }) {
+export default function HomePage({ data, location }) {
+  const skipIntro = location?.state?.skipIntro === true;
   const [activeFlow, setActiveFlow] = useState(-1);
   const [typedCommand, setTypedCommand] = useState('');
   const [typedBootText, setTypedBootText] = useState('');
@@ -67,8 +68,8 @@ export default function HomePage({ data }) {
   const [isStarted, setIsStarted] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
-  const [showTerminal, setShowTerminal] = useState(true);
-  const [showInvitation, setShowInvitation] = useState(false);
+  const [showTerminal, setShowTerminal] = useState(!skipIntro);
+  const [showInvitation, setShowInvitation] = useState(skipIntro);
   const catRef = useRef(null);
 
   useEffect(() => {

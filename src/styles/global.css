@@ -523,18 +523,10 @@ h2 {
   border: 0;
   border-radius: 0;
   background: transparent;
-  transition: background 180ms ease, transform 180ms ease;
 }
 
 .schedule-panel .info-box + .info-box {
   border-left: 1px solid #b8d6e4;
-}
-
-.schedule-panel .info-box:hover {
-  position: relative;
-  z-index: 1;
-  background: rgb(255 255 255 / 45%);
-  transform: translateY(-2px);
 }
 
 .info-box--wide {
@@ -569,14 +561,6 @@ h2 {
   background: var(--card-surface);
   box-shadow: var(--card-shadow);
   text-align: left;
-  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-}
-
-.info-box:hover {
-  border-color: var(--card-accent);
-  background: rgb(255 255 255 / 96%);
-  box-shadow: 0 15px 28px rgb(24 50 71 / 12%);
-  transform: translateY(-2px);
 }
 
 .info-box::before {
@@ -720,24 +704,12 @@ h2 {
   background: var(--card-surface);
   box-shadow: var(--card-shadow);
   text-align: left;
-  transition: border-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
-}
-
-.teacher-item:hover {
-  border-color: #8dbbd3;
-  box-shadow: 0 9px 18px rgb(24 50 71 / 9%);
-  transform: translateY(-2px);
 }
 
 .teacher-item--presenter {
   padding-right: 22px;
   background: linear-gradient(135deg, #dceff6, rgb(255 255 255 / 88%));
   box-shadow: inset 4px 0 0 #6ba9c2, 0 7px 16px rgb(24 50 71 / 6%);
-}
-
-.teacher-item--presenter:hover {
-  border-color: #6ba9c2;
-  box-shadow: inset 4px 0 0 #2878a4, 0 10px 22px rgb(24 50 71 / 10%);
 }
 
 .teacher-index {
@@ -1053,7 +1025,6 @@ h2 {
   font-size: 16px;
   font-weight: 700;
   box-shadow: 0 5px 12px rgb(24 50 71 / 7%);
-  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
 }
 
 .topic-steps li:nth-child(1) { --step-accent: #2878a4; }
@@ -1062,12 +1033,6 @@ h2 {
 
 .topic-steps li {
   border-top: 3px solid var(--step-accent);
-}
-
-.topic-steps li:hover {
-  border-color: var(--card-accent);
-  background: #f2fbff;
-  transform: translateY(-2px);
 }
 
 .topic-steps li span {
@@ -1277,29 +1242,11 @@ h2 {
   text-align: center;
 }
 
-.game-panel--challenge {
-  border-color: #d4b16f;
-  background: linear-gradient(145deg, rgb(255 251 239 / 80%), rgb(255 255 255 / 75%));
-  box-shadow: 0 12px 24px rgb(173 125 46 / 12%);
-}
-
 .game-round-title {
   margin-bottom: 22px;
   color: #183247;
   font-size: 25px;
   letter-spacing: 2px;
-}
-
-.game-challenge-badge {
-  display: inline-block;
-  margin-left: 10px;
-  padding: 5px 8px;
-  border: 1px solid #d4b16f;
-  border-radius: 6px;
-  color: #9a6b1e;
-  font-size: 11px;
-  letter-spacing: 1px;
-  vertical-align: 4px;
 }
 
 .game-visual {
@@ -1557,14 +1504,30 @@ h2 {
   }
 }
 
-.game-encourage-animation {
+.game-replay-button {
   position: relative;
   display: grid;
   place-items: center;
   width: 76px;
   height: 76px;
   margin: -11px auto 5px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
   color: #2878a4;
+  cursor: pointer;
+}
+
+.game-replay-button:hover,
+.game-replay-button:focus-visible {
+  color: #164e6d;
+  outline: none;
+}
+
+.game-replay-button:focus-visible {
+  outline: 3px solid rgb(40 120 164 / 35%);
+  outline-offset: 4px;
 }
 
 .game-encourage-ring {
@@ -1619,19 +1582,9 @@ h2 {
 .game-final-score strong { font-size: 72px; line-height: 1; }
 .game-final-score span { font-size: 20px; }
 
-.game-complete-text {
-  color: #526a7c;
-  font-size: 15px;
-}
-
-.game-complete-explanation {
-  margin: 10px auto 0;
-  color: #7b8d9b;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
 .game-complete-actions {
+  position: relative;
+  z-index: 2;
   display: flex;
   align-items: center;
   justify-content: center;

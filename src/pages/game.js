@@ -11,8 +11,8 @@ const roundBank = [
     prompt: '怎麼寫更精簡？',
     options: [
       { id: 'repeat-four', icon: '↻', count: '×4', label: '前進 1 格' },
-      { id: 'repeat-one', icon: '→', count: '×1', label: '前進 4 格' },
-      { id: 'repeat-backward', icon: '↶', count: '×4', label: '後退 1 格' },
+      { id: 'sequence-four', icon: '→', count: '4', label: '逐次寫出前進指令' },
+      { id: 'repeat-three', icon: '↻', count: '×3', label: '前進 1 格' },
     ],
     answer: 'repeat-four',
     explanation: '相同動作 ×4 → 重複 4 次',
@@ -23,11 +23,11 @@ const roundBank = [
     tag: '循序 → 重複',
     title: '播放音效 × 3',
     visual: ['♪', '♪', '♪'],
-    prompt: '選出重複結構',
+    prompt: '要播放同一個音效 3 次，哪個做法最合適？',
     options: [
-      { id: 'sound-three', icon: '↻', count: '×3', label: '播放音效' },
-      { id: 'sound-one', icon: '♪', count: '×1', label: '播放三種音效' },
-      { id: 'sound-five', icon: '↻', count: '×5', label: '播放音效' },
+      { id: 'sound-three', icon: '↻', count: '×3', label: '重複播放同一音效' },
+      { id: 'sound-sequence', icon: '→', count: '3', label: '逐次播放同一音效' },
+      { id: 'sound-five', icon: '↻', count: '×5', label: '重複播放同一音效' },
     ],
     answer: 'sound-three',
     explanation: '同一個音效出現 3 次 → 重複 3 次',
@@ -111,16 +111,16 @@ const roundBank = [
     id: 'clap-five',
     category: 'repeat',
     tag: '循序 → 重複',
-    title: '拍手 × 5',
+    title: '拍手 5 次',
     visual: ['👏', '👏', '👏', '👏', '👏'],
-    prompt: '怎麼寫更精簡？',
+    prompt: '要讓程式執行相同動作 5 次，哪一個選項最適合？',
     options: [
-      { id: 'clap-five', icon: '↻', count: '×5', label: '拍手' },
-      { id: 'clap-one', icon: '👏', count: '×1', label: '拍五下' },
-      { id: 'clap-two', icon: '↻', count: '×2', label: '拍手' },
+      { id: 'clap-five', icon: '↻', count: '×5', label: '重複拍手' },
+      { id: 'clap-sequence', icon: '→', count: '5', label: '逐次寫出拍手指令' },
+      { id: 'clap-two', icon: '↻', count: '×2', label: '重複拍手兩次' },
     ],
     answer: 'clap-five',
-    explanation: '相同動作 ×5 → 重複 5 次',
+    explanation: '相同的拍手動作需要執行 5 次，適合使用重複結構。',
   },
   {
     id: 'input-three',
@@ -141,7 +141,7 @@ const roundBank = [
     id: 'challenge-repeat-distance',
     category: 'challenge',
     structure: 'repeat',
-    tag: '挑戰題 / 重複結構',
+    tag: '重複結構',
     title: '算出總距離',
     visualType: 'text',
     visual: ['目前 1 格', '重複 5 次', '每次前進 2 格'],
@@ -158,32 +158,32 @@ const roundBank = [
     id: 'challenge-sequence-order',
     category: 'challenge',
     structure: 'sequence',
-    tag: '挑戰題 / 循序結構',
-    title: '順序不能錯',
+    tag: '循序結構',
+    title: '循序執行的結果',
     visualType: 'text',
-    visual: ['目前數字 4', '先 ＋ 3', '再 × 2'],
-    prompt: '最後是多少？',
+    visual: ['起始數字：4', '＋ 3', '× 2'],
+    prompt: '按照圖示順序計算，最後結果是多少？',
     options: [
-      { id: 'result-11', icon: '=', count: '11', label: '' },
-      { id: 'result-14', icon: '=', count: '14', label: '' },
-      { id: 'result-16', icon: '=', count: '16', label: '' },
+      { id: 'result-14', icon: '=', count: '14', label: '依圖示順序計算' },
+      { id: 'result-10', icon: '=', count: '10', label: '將 × 2 提前計算' },
+      { id: 'result-11', icon: '=', count: '11', label: '顛倒運算順序' },
     ],
     answer: 'result-14',
-    explanation: '先做 4＋3＝7，再做 7×2＝14',
+    explanation: '循序結構要依照圖示順序執行：4＋3＝7，接著將 7×2＝14，不能把後面的運算提前。',
   },
   {
     id: 'challenge-selection-order',
     category: 'challenge',
     structure: 'selection',
-    tag: '挑戰題 / 選擇結構',
+    tag: '選擇結構',
     title: '看懂輸出結果',
     visualType: 'text',
     visual: ['分數：78 分', '如果 ≥ 90 → 輸出「優秀」', '否則如果 ≥ 60 → 輸出「及格」', '否則 → 輸出「不及格」'],
     prompt: '程式最後會輸出哪一個？',
     options: [
-      { id: 'grade-excellent', icon: '◇', count: '優秀', label: '' },
-      { id: 'grade-pass', icon: '◇', count: '及格', label: '' },
-      { id: 'grade-fail', icon: '◇', count: '不及格', label: '' },
+      { id: 'grade-excellent', icon: '◇', count: '優秀', label: '只要分數 ≥ 60' },
+      { id: 'grade-pass', icon: '◇', count: '及格', label: '78 ≥ 60，且未達 90' },
+      { id: 'grade-fail', icon: '◇', count: '不及格', label: '78 < 90' },
     ],
     answer: 'grade-pass',
     explanation: '78 未達 90，但達到 60 → 顯示「及格」',
@@ -192,18 +192,18 @@ const roundBank = [
     id: 'challenge-pre-post-test',
     category: 'challenge',
     structure: 'repeat',
-    tag: '挑戰題 / 前後判斷式',
-    title: '先檢查，還是先做？',
+    tag: '前後判斷式',
+    title: '先檢查，還是先攻擊？',
     visualType: 'text',
-    visual: ['目前生命值：0', '前判斷：先檢查再攻擊', '後判斷：先攻擊再檢查'],
-    prompt: '一開始沒有生命值，攻擊各執行幾次？',
+    visual: ['角色生命值：0', '前判斷：生命值 > 0 才攻擊', '後判斷：先攻擊，再檢查生命值'],
+    prompt: '生命值是 0 時，兩種迴圈各會攻擊幾次？',
     options: [
-      { id: 'pre-zero-post-one', icon: '?', count: '前 0／後 1', label: '次' },
-      { id: 'pre-one-post-one', icon: '?', count: '前 1／後 1', label: '次' },
-      { id: 'pre-zero-post-zero', icon: '?', count: '前 0／後 0', label: '次' },
+      { id: 'pre-zero-post-one', icon: '?', count: '前 0／後 1', label: '次攻擊' },
+      { id: 'pre-one-post-one', icon: '?', count: '前 1／後 1', label: '次攻擊' },
+      { id: 'pre-zero-post-zero', icon: '?', count: '前 0／後 0', label: '次攻擊' },
     ],
     answer: 'pre-zero-post-one',
-    explanation: '前判斷先檢查生命值，0 不符合所以攻擊 0 次；後判斷會先攻擊一次，再檢查生命值',
+    explanation: '前判斷會先檢查，生命值為 0 時不會攻擊；後判斷會先攻擊一次，再檢查生命值。',
   },
 ];
 
@@ -309,16 +309,16 @@ export default function StructureGame() {
                 <span className="game-score">得分 {score} · 題組隨機</span>
               </div>
               <h1 className="game-title" id="game-title">流程結構闖關</h1>
+              <p className="game-subtitle">誠摯邀請您先來體驗一個簡單有趣的小遊戲。</p>
               <div className="game-progress" aria-label={`第 ${roundIndex + 1} 題，共 ${gameRounds.length} 題`}>
                 <span style={{ width: `${((roundIndex + 1) / gameRounds.length) * 100}%` }} />
               </div>
               <p className="game-round-label">第 {roundIndex + 1} 題 · {round.tag}</p>
             </header>
 
-            <div className={`game-panel${round.category === 'challenge' ? ' game-panel--challenge' : ''}`}>
+            <div className="game-panel">
               <h2 className="game-round-title">
                 {round.title}
-                {round.category === 'challenge' && <span className="game-challenge-badge">挑戰題</span>}
               </h2>
               <div className={`game-visual game-visual--${round.visual.length}${round.visualType ? ` game-visual--${round.visualType}` : ''}`} aria-label={round.title}>
                 {round.visual.map((icon, index) => (
@@ -384,25 +384,25 @@ export default function StructureGame() {
               </div>
             )}
             {score < 3 && (
-              <div className="game-encourage-animation" aria-hidden="true">
+              <button
+                className="game-replay-button"
+                type="button"
+                onClick={restartGame}
+                aria-label="再玩一次"
+                title="再玩一次"
+              >
                 <span className="game-encourage-ring" />
-                <span className="game-encourage-icon">↻</span>
-              </div>
+                <span className="game-encourage-icon" aria-hidden="true">↻</span>
+              </button>
             )}
             <p className="game-kicker">QUEST COMPLETE</p>
             <h1 className="game-title" id="game-complete-title">闖關完成！</h1>
             <div className="game-final-score"><strong>{score}</strong><span>/ {gameRounds.length}</span></div>
-            <p className="game-complete-text">
-              {score >= 3
-                ? '恭喜老師了解程式三大結構的基本了！'
-                : '請老師再玩一次，更加了解程式的三大結構！'}
-            </p>
-            <p className="game-complete-explanation">
-              依照答對題數顯示不同提示詞，也是根據條件做選擇的結構喔！
-            </p>
             <div className="game-complete-actions">
-              <button className="game-next" type="button" onClick={restartGame}>再玩一次</button>
-              <Link className="game-home-link" to="/">回到邀請卡</Link>
+              {score >= 3 && (
+                <button className="game-next" type="button" onClick={restartGame}>再玩一次</button>
+              )}
+              <Link className="game-home-link" to="/" state={{ skipIntro: true }}>回到邀請卡</Link>
             </div>
           </section>
         )}
