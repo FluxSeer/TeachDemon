@@ -333,6 +333,7 @@ export default function HomePage({ data, location }) {
 
             <section className="topic" aria-labelledby="topic-title">
               <h2 className="topic-label" id="topic-title">教學主題 <span>TEACHING TOPIC</span></h2>
+              <p className="topic-unit">康軒 第一冊・第四課</p>
               <p className="topic-main">程式的三大流程結構</p>
               <ol className="topic-steps">
                 <li><span>01</span>循序</li>
